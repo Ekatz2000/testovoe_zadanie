@@ -3,6 +3,7 @@
 
 <head>
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
 <style>
 
@@ -20,14 +21,9 @@ form {
    margin-left: 23%;
    width: 50%;
    border-radius: 7px;
+   border: 2px solid #333333;
    box-shadow: -2px 5px 16px rgb(0 0 0 / 8%);
 }
-form .center {
-   display: inline-block;
-   vertical-align: top;
-   margin: 2%;
-}
-
 label {
    display: block;
    color: #333333;
@@ -67,6 +63,70 @@ td, th {
   padding: 10px;
   border: 1px solid #dbdbd2;
   text-align:center;
+}
+frame {
+  overflow: scroll;
+}
+
+@media (min-width: 300px) and (max-width: 900px) {
+  form {
+    border-radius: 7px;
+    width: 85%;
+    border: 2px solid #333333;
+    padding-left: 4%; 
+    padding-bottom: 2%;
+    padding-top: 2%;
+    padding-right: 4%;
+    margin-top: 30px;
+    margin-left: 3%;
+    background: #ffffff;
+  }
+  label {
+   display: block;
+   color: #333333;
+   font-size: 18px;
+   text-align: center;
+   margin: 15px;
+}
+input {
+   border: 1px solid #dbdbd2;
+   padding: 2%;
+   font-size: 16px;
+   width: 70%;
+   border-radius: 7px;
+}
+input[type="submit"] {
+   width: 50%;
+   text-align: center;
+   border: none;
+   background-color: #3d4b53;
+   color: #ffffff;
+   text-transform: uppercase;
+   margin-top: 20px;
+   padding: 13px
+}
+input[type="submit"]:hover {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.4) 0 0);
+}
+
+table thead {
+    display: none;
+  }
+  table tr {
+    display: block;
+    margin-bottom: 1rem;
+    border-bottom: 2px solid #e8e9eb;
+  }
+  table td {
+    display: block;
+    text-align: right;
+  }
+  table td:before {
+    content: attr(aria-label);
+    float: left;
+    font-weight: bold;
+  }
+
 }
 </style>
 </head>
@@ -120,7 +180,8 @@ $db = null;
    </div>
 
 </form>
-<form name="bd"  autocomplete="off">
+
+<form name="bd" autocomplete="off">
   <h1>Полученные данные:</h1>
 <?php
 if (isset($_POST['submit_btn'])) {
@@ -131,18 +192,18 @@ require_once 'pdoconfig.php';
     $sql = "SELECT name, phone, mail, adress FROM $db_table";
     // Подготовка запроса
     $statement = $db->prepare($sql);
-    // Выполняем запрос
+    // Выполнение запроса
     $statement->execute();
-    // Получаем массив строк 
+    // Получение массива строк 
     $result_array = $statement->fetchAll();
  
-    echo "<table><tr><th>ФИО</th><th>Телефон</th><th>E-mail</th><th>Адрес</th></tr>";
+    echo "<table><thead><tr><th>ФИО</th><th>Телефон</th><th>E-mail</th><th>Адрес</th></tr></thead>";
     foreach ($result_array as $result_row) {
         echo '<tr>';
-        echo '<td>' . $result_row['name']   . '</td>';
-        echo '<td>' . $result_row['phone']    . '</td>';
-        echo '<td>' . $result_row['mail'] . '</td>';
-        echo '<td>' . $result_row['adress']   . '</td>';
+        echo '<td aria-label="Имя">' . $result_row['name']   . '</td>';
+        echo '<td aria-label="Телефон">' . $result_row['phone']    . '</td>';
+        echo '<td aria-label="Почта">' . $result_row['mail'] . '</td>';
+        echo '<td aria-label="Адрес">' . $result_row['adress']   . '</td>';
         echo '</tr>';
     }
     echo "</table>";
@@ -151,5 +212,6 @@ require_once 'pdoconfig.php';
 $db = null;
 ?>
 </form>
+
 </body>
 </html>
