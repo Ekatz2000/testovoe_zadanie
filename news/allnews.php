@@ -23,7 +23,7 @@
    require_once 'pdoconfig.php';
 
     $db = new PDO("mysql:host=$db_host; dbname=$db_base", $db_user, $db_password);
-    $sql = "SELECT title, data, content FROM $db_table";
+    $sql = "SELECT title, data, content FROM $db_table ORDER BY data DESC";
     $query = $db->prepare($sql);
     $query->execute();
     $result_array = $query->fetchAll();
