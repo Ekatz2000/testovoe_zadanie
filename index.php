@@ -105,26 +105,25 @@ h1 {
 <form>
 <h1>Свежие новости</h1>
 <?php
-   $host = 'localhost';
-   $db_name = 't953727y_ek';
-   $user = 't953727y_ek';
-   $password = '111111EKz';
+  require_once 'news/pdoconfig.php';
  
-      $connection = mysqli_connect($host, $user, $password, $db_name);
-      $query = 'SELECT title, content, data FROM `news` ORDER BY data DESC LIMIT 3';
-      $result = mysqli_query($connection, $query);
+      $db = new PDO("mysql:host=$db_host; dbname=$db_base", $db_user, $db_password);
+      $sql = 'SELECT title, content, data FROM `news` ORDER BY data DESC LIMIT 3';
+      $query = $db->prepare($sql);
+      $query->execute();
+      $result_array = $query->fetchAll();
 
-      while($row = $result->fetch_assoc()){
+       foreach ($result_array as $result_row) {
          echo  '<hr>';
-         echo  '<div class="title">'.$row['title'].'</div>';
+         echo  '<div class="title">'.$result_row['title'].'</div>';
          echo  '<br>';
-         echo  '<div class="dt">'.$row['data'].'</div>';
+         echo  '<div class="dt">'.$result_row['data'].'</div>';
          echo  '<br>';
-         echo  '<div class="cont">'.substr($row['content'] ,0, strpos($row['content'],'.',1)).'.'.'</div>';
+         echo  '<div class="cont">'.substr($result_row['content'] ,0, strpos($result_row['content'],'.',1)).'.'.'</div>';
          echo  '<br>';
       }
 
-      mysqli_close($connection);
+      $db = null;
 ?>
 
 <div style="column-count: 2; display: contents;">
