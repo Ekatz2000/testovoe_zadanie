@@ -185,14 +185,10 @@ $db = null;
 if (isset($_POST['submit_btn'])) {
 require_once 'pdoconfig.php';
     if ($bezspama==8) {  
-    // Подключение к базе данных
     $db = new PDO("mysql:host=$db_host; dbname=$db_base", $db_user, $db_password);
     $sql = "SELECT name, phone, mail, adress FROM $db_table";
-    // Подготовка запроса
     $statement = $db->prepare($sql);
-    // Выполнение запроса
     $statement->execute();
-    // Получение массива строк 
     $result_array = $statement->fetchAll();
  
     echo "<table><thead><tr><th>ФИО</th><th>Телефон</th><th>E-mail</th><th>Адрес</th></tr></thead>";
